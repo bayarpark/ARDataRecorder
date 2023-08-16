@@ -111,6 +111,7 @@ fun AppCompatActivity.redirectToApplicationSettings() {
 fun filename(): String = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date())
 
 fun cacheFile(context: Context, extension: String): File = File(context.cacheDir, filename() + extension)
+fun definedCacheFile(context: Context, filename: String, extension: String): File = File(context.cacheDir, filename + extension)
 
 inline fun <reified T> ArSceneView.findNode(): T? = scene.findInHierarchy { it is T } as T?
 

@@ -46,7 +46,8 @@ abstract class ArActivity<T : ViewBinding>(private val inflate: (LayoutInflater)
 
     private var installRequested: Boolean = false
 
-    private lateinit var videoRecorder: VideoRecorder
+    protected lateinit var videoRecorder: ARVideoRecorder
+    protected var recordingInProgress: Boolean = false
 
     private val arCoreViewerIntent by lazy {
         createArCoreViewerIntent(
@@ -66,7 +67,7 @@ abstract class ArActivity<T : ViewBinding>(private val inflate: (LayoutInflater)
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        videoRecorder = VideoRecorder(this, arSceneView) { isRecording ->
+        videoRecorder = ARVideoRecorder(this, arSceneView) { isRecording ->
             if (isRecording) {
                 Toast.makeText(this, R.string.recording, Toast.LENGTH_LONG).show()
             }
@@ -112,6 +113,7 @@ abstract class ArActivity<T : ViewBinding>(private val inflate: (LayoutInflater)
         super.onDestroy()
         arSceneView.destroy()
         videoRecorder.stop()
+        recordingInProgress = false
     }
 
     abstract val arSceneView: ArSceneView
